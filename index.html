@@ -188,8 +188,8 @@ footer{background:#060607;border-top:1px solid rgba(212,175,55,.35);padding:52px
 <div class="wrap">
 <div class="head"><h2 class="serif">Ինչպես պատվիրել</h2></div>
 <div class="g3">
-<div class="step"><div class="num">1</div><h3>Լրացրեք հայտը</h3><p>Անուն, ազգանուն և հեռախոս՝ 30 վայրկյանում։</p></div>
-<div class="step"><div class="num">2</div><h3>Մենք կզանգենք</h3><p>Կհաստատենք պատվերը, հասցեն և առաքման օրը։</p></div>
+<div class="step"><div class="num">1</div><h3>Լրացրեք հայտը</h3><p>Անուն, ազգանուն, հեռախոս և հասցե՝ 30 վայրկյանում։</p></div>
+<div class="step"><div class="num">2</div><h3>Մենք կզանգենք</h3><p>Կհաստատենք պատվերը և առաքման օրը։</p></div>
 <div class="step"><div class="num">3</div><h3>Ստացեք պատվերը</h3><p>Պատվերը կհասցնենք ձեր նշած հասցեով։</p></div>
 </div>
 </div>
@@ -214,6 +214,7 @@ footer{background:#060607;border-top:1px solid rgba(212,175,55,.35);padding:52px
 <div class="field"><label for="f-name">Անուն</label><input id="f-name" name="name" type="text" autocomplete="given-name" required placeholder="Ձեր անունը"></div>
 <div class="field"><label for="f-surname">Ազգանուն</label><input id="f-surname" name="surname" type="text" autocomplete="family-name" required placeholder="Ձեր ազգանունը"></div>
 <div class="field"><label for="f-phone">Հեռախոսահամար</label><input id="f-phone" name="phone" type="tel" autocomplete="tel" required placeholder="+374 __ ___ ___"></div>
+<div class="field"><label for="f-addr">Առաքման հասցե</label><input id="f-addr" name="address" type="text" autocomplete="street-address" required placeholder="Քաղաք, փողոց, շենք, բնակարան"></div>
 <div class="qrow"><span style="font-weight:600">Քանակ</span>
 <div style="display:flex;align-items:center;gap:12px"><button type="button" class="qbtn" id="dec" aria-label="Պակասեցնել">−</button><span id="qty" style="min-width:32px;text-align:center;font-size:20px;font-weight:700">1</span><button type="button" class="qbtn" id="inc" aria-label="Ավելացնել">+</button></div></div>
 <div class="total"><span style="color:var(--mute)">Ընդամենը</span><span style="font-size:30px;font-weight:800;white-space:nowrap"><span id="total">8 500</span> ֏</span></div>
@@ -247,7 +248,7 @@ footer{background:#060607;border-top:1px solid rgba(212,175,55,.35);padding:52px
 <div class="frow">
 <div class="fcol"><span class="goldtxt serif" style="font-weight:700;font-size:24px;letter-spacing:4px">VENGAN</span></div>
 <div class="fcol"><span>Էլ. փոստ՝ <a href="mailto:vengan@gmail.com">vengan@gmail.com</a></span></div>
-<div class="fcol" style="max-width:420px"><b style="color:var(--ink)">Գաղտնիության քաղաքականություն</b><span>Պատվերի ձևում նշված անունը, ազգանունը և հեռախոսահամարը օգտագործվում են միայն պատվերը հաստատելու և առաքելու համար և չեն փոխանցվում երրորդ անձանց։ Տվյալները ջնջելու համար գրեք vengan@gmail.com հասցեով։</span></div>
+<div class="fcol" style="max-width:420px"><b style="color:var(--ink)">Գաղտնիության քաղաքականություն</b><span>Պատվերի ձևում նշված անունը, ազգանունը, հեռախոսահամարը և հասցեն օգտագործվում են միայն պատվերը հաստատելու և առաքելու համար և չեն փոխանցվում երրորդ անձանց։ Տվյալները ջնջելու համար գրեք vengan@gmail.com հասցեով։</span></div>
 </div>
 <p class="legal">Ապրանքը կոսմետիկ խնամքի միջոց է և դեղամիջոց չէ։ Արդյունքները կարող են տարբեր լինել։ Պահել երեխաներից հեռու։ Ատամների կամ լնդերի խնդիրների դեպքում դիմեք ատամնաբույժի։ Այս կայքը կապված չէ Meta Platforms, Inc.-ի, Facebook-ի կամ Instagram-ի հետ և չի հովանավորվում նրանց կողմից։</p>
 </div>
@@ -282,7 +283,7 @@ footer{background:#060607;border-top:1px solid rgba(212,175,55,.35);padding:52px
   $('orderForm').addEventListener('submit', e => {
     e.preventDefault();
     const d = new FormData(e.target);
-    const v = { name: d.get('name') || '', surname: d.get('surname') || '', phone: d.get('phone') || '', qty: q, total: q * P };
+    const v = { name: d.get('name') || '', surname: d.get('surname') || '', phone: d.get('phone') || '', address: d.get('address') || '', qty: q, total: q * P };
     const btn = e.target.querySelector('button[type=submit]');
     const done = () => { $('formBox').hidden = true; $('thanks').hidden = false; };
     if (ORDER_URL) {
@@ -291,7 +292,7 @@ footer{background:#060607;border-top:1px solid rgba(212,175,55,.35);padding:52px
         .then(done)
         .catch(() => { btn.disabled = false; btn.textContent = 'Ուղարկել պատվերը'; $('sendErr').hidden = false; });
     } else {
-      $('sendLink').href = 'mailto:' + EMAIL + '?subject=' + encodeURIComponent('Պատվեր — ROZINO Dazzle White') + '&body=' + encodeURIComponent('Անուն՝ ' + v.name + '\nԱզգանուն՝ ' + v.surname + '\nՀեռախոս՝ ' + v.phone + '\nՔանակ՝ ' + q + ' հատ (' + fmt(q * P) + ' ֏)');
+      $('sendLink').href = 'mailto:' + EMAIL + '?subject=' + encodeURIComponent('Պատվեր — ROZINO Dazzle White') + '&body=' + encodeURIComponent('Անուն՝ ' + v.name + '\nԱզգանուն՝ ' + v.surname + '\nՀեռախոս՝ ' + v.phone + '\nՀասցե՝ ' + v.address + '\nՔանակ՝ ' + q + ' հատ (' + fmt(q * P) + ' ֏)');
       $('sendLink').hidden = false; $('doneText').textContent = 'Վերջին քայլ․ սեղմեք կոճակը և ուղարկեք պատրաստի նամակը։'; done();
     }
   });
